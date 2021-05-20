@@ -1,0 +1,5 @@
+.idea
+disk
+build
+node_modules
+src/coverage
