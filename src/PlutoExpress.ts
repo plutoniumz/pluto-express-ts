@@ -1,45 +1,43 @@
 import HookFactory from './hooks/HookFactory'
-import { HOOK_NAMES } from './constants'
+import { DEFAULT_HOOK_CONFIGS, DEFAULT_PORT_CONFIGS, HOOK_NAMES } from './constants'
 import { start, end, error, app } from './utils'
 import { UserConfigs, HookConfigs } from './types'
 
-class PlutoExpress {
-    public static async startApplication (userConfigs: UserConfigs = {}) {
-        start('App is starting...')
+const startApplication = async (userConfigs: UserConfigs = {}) => {
+    start('App is starting...')
 
-        const { port = 3000, hookConfigs = {} } = userConfigs
+    const { port = DEFAULT_PORT_CONFIGS, hookConfigs = DEFAULT_HOOK_CONFIGS } = userConfigs
 
-        PlutoExpress.validateUserConfigs(userConfigs)
+    validateUserConfigs(userConfigs)
 
-        await PlutoExpress.initAllHooks(hookConfigs)
-        const server = await app.listen(port)
+    await initAllHooks(hookConfigs)
+    const server = await app.listen(port)
 
-        end(`App is started at http://localhost:${server.address().port}`)
+    end(`App is started at http://localhost:${server.address().port}`)
+}
+
+const validateUserConfigs = (userConfigs: UserConfigs) => {
+    const { port, hookConfigs } = userConfigs
+
+    if (port && !Number.isInteger(port)) {
+        error(`"port: ${port}" is invalid`)
     }
 
-    private static validateUserConfigs ({ port, hookConfigs }: UserConfigs) {
-        if (typeof port !== 'undefined' && !Number.isInteger(port)) {
-            error(`"port: ${port}" is invalid`)
-        }
-
-        if (typeof hookConfigs !== 'undefined' && typeof hookConfigs !== 'object') {
-            error(`"hookConfigs: ${hookConfigs}" is invalid`)
-        }
-    }
-
-    private static async initAllHooks (hookConfigs: HookConfigs): Promise<void> {
-        const names = Object.keys(HOOK_NAMES)
-
-        for await (const name of names) {
-            if (hookConfigs[name] === false) return
-
-            const hookUserConfigs = hookConfigs[name]
-
-            const Hook = HookFactory.create(name, hookUserConfigs)
-
-            Hook && await Hook.init()
-        }
+    if (hookConfigs && typeof hookConfigs !== 'object') {
+        error(`"hookConfigs: ${hookConfigs}" is invalid`)
     }
 }
 
-module.exports = PlutoExpress.startApplication
+const initAllHooks = async (hookConfigs: HookConfigs): Promise<void> => {
+    for await (const name of HOOK_NAMES) {
+        if (hookConfigs[name] === false) return
+
+        const hookUserConfigs = hookConfigs[name]
+
+        const Hook = HookFactory.create(name, hookUserConfigs)
+
+        Hook && await Hook.init()
+    }
+}
+
+module.exports = startApplication

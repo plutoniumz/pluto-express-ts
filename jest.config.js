@@ -14,5 +14,6 @@ module.exports = {
     testEnvironment: 'node',
     transform: {
         '^.+\\.tsx?$': 'ts-jest'
-    }
+    },
+    setupFiles: ['./src/__tests__/setup.ts']
 }

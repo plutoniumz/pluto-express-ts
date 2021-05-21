@@ -1,3 +1,8 @@
+import { CorsHookConfigs, HookConfigs, SessionHookConfigs, UserConfigs } from './types'
+
+export const DEFAULT_PORT_CONFIGS = 3000
+export const DEFAULT_HOOK_CONFIGS = {}
+
 export const CORS_HOOK_NAME = 'cors'
 export const HELMET_HOOK_NAME = 'helmet'
 export const SESSION_HOOK_NAME = 'session'
@@ -7,7 +12,6 @@ export const RESPONSE_HOOK_NAME = 'responses'
 export const POLICIES_HOOK_NAME = 'policies'
 export const ROUTES_HOOK_NAME = 'routes'
 export const SEQUELIZE_HOOK_NAME = 'sequelize'
-
 export const HOOK_NAMES = [
     CORS_HOOK_NAME,
     HELMET_HOOK_NAME,
@@ -20,12 +24,12 @@ export const HOOK_NAMES = [
     SEQUELIZE_HOOK_NAME
 ]
 
-export const CORS_HOOK_DEFAULT_CONFIGS = {
+export const CORS_HOOK_DEFAULT_CONFIGS: CorsHookConfigs = {
     allowKey: null,
     allowDomains: ['http://localhost:3000']
 }
 
-export const SESSION_HOOK_DEFAULT_CONFIGS = {
+export const SESSION_HOOK_DEFAULT_CONFIGS: SessionHookConfigs = {
     secret: 'secret',
     expiration: 8 * 60 * 60 * 1000,
     checkExpirationInterval: 30 * 1000,
@@ -38,7 +42,7 @@ export const SESSION_HOOK_DEFAULT_CONFIGS = {
     }
 }
 
-export const HOOK_DEFAULT_CONFIGS = {
+export const HOOK_DEFAULT_CONFIGS: HookConfigs = {
     [CORS_HOOK_NAME]: CORS_HOOK_DEFAULT_CONFIGS,
     [SEQUELIZE_HOOK_NAME]: SESSION_HOOK_DEFAULT_CONFIGS
 }

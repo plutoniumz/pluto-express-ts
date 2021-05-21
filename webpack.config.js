@@ -6,7 +6,7 @@ module.exports = {
     ignoreWarnings: [/critical dependency:/i],
     entry: {
         index: './src/PlutoExpress.ts',
-        utils: './src/utils.ts'
+        utils: './src/setup.ts'
     },
     performance: {
         hints: false

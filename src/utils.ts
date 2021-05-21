@@ -10,7 +10,7 @@ const start = (message: string) => console.log(chalk.bold.yellow(message))
 const error = (message: string) => {
     console.log(chalk.bold.red(message))
 
-    process.exit()
+    process.exit(1)
 }
 
 export {
