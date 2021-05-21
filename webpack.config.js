@@ -1,3 +1,4 @@
+const TerserPlugin = require('terser-webpack-plugin')
 const { resolve } = require('path')
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
     ignoreWarnings: [/critical dependency:/i],
     entry: {
         index: './src/PlutoExpress.ts',
-        utils: './src/setup.ts'
+        utils: './src/utils.ts'
     },
     performance: {
         hints: false
@@ -22,6 +23,14 @@ module.exports = {
     // Add in `.ts` and `.tsx` as a resolvable extension.
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         modules: [`${global}/node_modules`, 'node_modules']
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false
+            })
+        ]
     },
     module: {
         rules: [

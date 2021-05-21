@@ -51,7 +51,7 @@ export interface IHook {
   userConfigs: HookConfigs
   defaultConfigs: HookConfigs
 
-  init(): Promise<void>
+  init(): Promise<any>
 
   validateUserConfigs(): void
 }

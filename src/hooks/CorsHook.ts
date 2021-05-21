@@ -3,6 +3,7 @@ import { error } from '../utils'
 
 class CorsHook extends Hook {
     public validateUserConfigs () {
+        console.log(this.userConfigs)
         if (this.userConfigs && typeof this.userConfigs.allowKey !== 'string') {
             error(`${this.name}.allowKey is invalid`)
         }
